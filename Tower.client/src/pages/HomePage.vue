@@ -1,13 +1,11 @@
 <template>
-  <div
-    class="
-      flex-grow-1
-      d-flex
-      flex-column
-      align-items-center
-      justify-content-center
-    "
-  ></div>
+  <div class="container-fluid">
+    <div class="home p-5 bg-secondary rounded mt-4 mx-5 banner"></div>
+    <div class="row p-3 m-2 justify-content-around">
+      <!-- only use on of these for event car component -->
+      <EventCard />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -18,20 +16,11 @@ export default {
 
 <style scoped lang="scss">
 .home {
-  display: grid;
-  height: 80vh;
+  height: 20vh;
   place-content: center;
   text-align: center;
-  user-select: none;
-  .home-card {
-    width: 50vw;
-    > img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+}
+.banner {
+  background-image: url("https://th.bing.com/th/id/R.5262ab982c788842625ed1379a372be8?rik=RAGJzIyw1ElJrA&pid=ImgRaw&r=0");
 }
 </style>
