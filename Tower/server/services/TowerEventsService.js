@@ -33,13 +33,16 @@ class TowerEventsService {
         return towerEvent
     }
     async create(body) {
+
         const towerEvent = await dbContext.TowerEvents.create(body)
+        if (towerEvent.startDate) {
+
+        }
         await towerEvent.populate('creator')
         return towerEvent
     }
     async getAll(query = {}) {
         const towerEvents = await dbContext.TowerEvents.find(query)
-
         return towerEvents
     }
 
