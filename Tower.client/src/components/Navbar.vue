@@ -20,7 +20,7 @@
             :to="{ name: 'Home' }"
             class="text-dark lighten-30 selectable text-uppercase"
           >
-            Home
+            <h2 class="text-dark">Home</h2>
           </router-link>
         </li>
       </ul>

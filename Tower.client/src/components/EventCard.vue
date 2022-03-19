@@ -1,8 +1,8 @@
 <template>
   <div class="component">
     <div
-      class="event-card selectable card bg-success col-md-4 rounded"
-      style="width: 30rem"
+      class="event-card selectable card bg-success col-md-4 rounded shadow"
+      style="width: 28rem"
     >
       <img
         src="https://thiscatdoesnotexist.com/"

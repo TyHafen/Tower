@@ -5,9 +5,6 @@
   <main>
     <router-view />
   </main>
-  <footer>
-    <div class="bg-secondary text-light text-center p-4"></div>
-  </footer>
 </template>
 
 <script>
