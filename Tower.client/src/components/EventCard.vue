@@ -1,7 +1,7 @@
 <template>
   <div class="component">
     <div
-      style="width: 28rem"
+      style="width: 30rem"
       class="event-card selectable card bg-success rounded shadow"
     >
       <img :src="towerEvent.coverImg" class="card-img-top" alt="..." />
