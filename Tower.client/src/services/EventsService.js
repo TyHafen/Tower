@@ -21,6 +21,12 @@ class EventsService {
         AppState.towerEvents = AppState.towerEvents.filter(t => t.type == theType)
         logger.log('this is the type', AppState.towerEvents)
     }
+    async createEvent(body) {
+        const res = await api.post('api/events', body)
+        logger.log('new event', res.data)
+        AppState.towerEvents.unshift(res.data)
+
+    }
 }
 
 

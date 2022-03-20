@@ -27,7 +27,7 @@
     </div>
     <div class="row p-3 m-2 justify-content-around align-items-center">
       <div v-for="e in towerEvents" :key="e.id" class="col-md-4 d-flex p-3 m-0">
-        <!-- only use on of these for event card component -->
+        <!-- only use one of these for event card component -->
         <router-link :to="{ name: 'EventDetails', params: { id: e.id } }">
           <EventCard :towerEvent="e" />
         </router-link>

@@ -4,7 +4,11 @@
       style="width: 30rem"
       class="event-card selectable card bg-success rounded shadow"
     >
-      <img :src="towerEvent.coverImg" class="card-img-top" alt="..." />
+      <img
+        :src="towerEvent.coverImg"
+        class="card-img-top photo-tint"
+        alt="..."
+      />
       <div class="card-body">
         <div class="row align-items-center justify-content-center p-1 m-1">
           <div class="col-md-7 d-flex">
@@ -45,5 +49,11 @@ export default {
 <style lang="scss" scoped>
 .ticket-font {
   font-size: 18px;
+}
+.photo-tint {
+  content: "";
+  display: block;
+
+  background: rgba(0, 255, 255, 0.5);
 }
 </style>

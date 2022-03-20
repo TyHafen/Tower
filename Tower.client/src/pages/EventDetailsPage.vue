@@ -6,46 +6,46 @@
           <div class="card event-card bg-success">
             <div class="row">
               <div class="col-md-4">
-                <img
-                  class="img-fluid"
-                  src="https://thiscatdoesnotexist.com/"
-                  alt=""
-                />
+                <img class="img-fluid" :src="activeEvent.coverImg" alt="" />
               </div>
               <div class="col-md-8 p-2">
                 <div class="row justify-content-between">
-                  <div class="col-md-3 p-2 m-1">
-                    <h2>Event Name</h2>
-                    <h4>Event type</h4>
+                  <div class="col-md-6 p-2 m-1">
+                    <h3>{{ activeEvent.name }}</h3>
+                    <h4>{{ activeEvent.type }}</h4>
                   </div>
-                  <div class="col-md-3 d-flex p-2 m-1">
-                    <div class="row justify-content-end text-right">
-                      <h2>Event Name</h2>
-                      <h4>Event type</h4>
+                  <div class="col-md-4 d-flex p-2 m-1">
+                    <div
+                      class="row justify-content-end text-right container-fluid"
+                    >
+                      <h2>{{ activeEvent.startDate }}</h2>
+                      <h4></h4>
                     </div>
                   </div>
                 </div>
 
                 <div class="row p-2">
-                  <p class="text-white">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Aperiam debitis neque est reiciendis consequatur, voluptates
-                    quo magnam rem illo veniam, minus omnis unde assumenda.
-                    Dignissimos harum eos provident odio ratione. Lorem ipsum
-                    dolor sit amet consectetur adipisicing elit. Aperiam debitis
-                    neque est reiciendis consequatur, voluptates quo magnam rem
-                    illo veniam, minus omnis unde assumenda. Dignissimos harum
-                    eos provident odio ratione.
+                  <p class="text-dark description">
+                    {{ activeEvent.description }}
                   </p>
                 </div>
 
                 <div class="row justify-content-between">
                   <div class="col-md-5 d-flex align-items-end">
-                    <h4>Capacity</h4>
+                    <h4>{{ activeEvent.capacity }} spots left!</h4>
                   </div>
                   <div class="col-md-5 d-flex justify-content-center p-2">
-                    <button class="btn btn-danger text-dark">
+                    <button
+                      v-if="
+                        activeEvent.capacity > 0 ||
+                        activeEvent.isCanceled == true
+                      "
+                      class="btn btn-danger text-dark"
+                    >
                       <b> get a ticket!</b> <i class="mdi mdi-ticket"></i>
+                    </button>
+                    <button v-else class="btn btn-danger text-dark">
+                      <b> sold out :/</b>
                     </button>
                   </div>
                 </div>
@@ -134,9 +134,10 @@ export default {
   setup() {
     const route = useRoute();
     onMounted(async () => {
-      if (route.params.towerEventId) {
+      if (route.params.id) {
         try {
-          await eventsService.setActiveEvent(route.params.towerEventId)
+          await eventsService.setActiveEvent(route.params.id)
+          logger.log("getting this")
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
@@ -169,5 +170,8 @@ export default {
 }
 .button-size {
   width: 150px;
+}
+.description {
+  font-size: 20px;
 }
 </style>

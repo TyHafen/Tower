@@ -1,26 +1,26 @@
 <template>
   <div class="about container-fluid">
     <div class="row p-2 m-2">
-      <h3 class="text-light">My events</h3>
+      <div class="col-md-2"><h3 class="text-light">My events</h3></div>
+      <div class="col-md-2">
+        <button
+          class="btn btn-primary shadow"
+          data-bs-toggle="modal"
+          data-bs-target="#create-modal"
+        >
+          Create Event
+        </button>
+        <Modal id="create-modal">
+          <template #modal-title>
+            <h4>Create an event</h4>
+          </template>
+          <template #modal-body><CreateEventForm /></template>
+        </Modal>
+      </div>
     </div>
     <div class="row">
-      <!-- iteration of my events! -->
-      <div class="col-md-2">
-        <div class="card bg-success shadow" style="width: ">
-          <img
-            class="card-img-top"
-            src="https://thiscatdoesnotexist.com/"
-            alt="Card image cap"
-          />
-          <div class="card-body">
-            <h6 class="card-text">
-              <div class="row p-1">Event Title</div>
-              <div class="row p-1">Location</div>
-              <div class="row p-1">date</div>
-              <div class="row p-1 justify-content-end">tickets left</div>
-            </h6>
-          </div>
-        </div>
+      <div v-for="e in myTowerEvents" :key="e.id" class="col-md-2 mt-3">
+        <MyTowerEventsCard :myTowerEvent="e" />
       </div>
     </div>
   </div>
@@ -33,7 +33,9 @@ export default {
   name: 'Account',
   setup() {
     return {
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      // filter by account Id. FIGURE IT OUT
+      myTowerEvents: computed(() => AppState.towerEvents)
     }
   }
 }
