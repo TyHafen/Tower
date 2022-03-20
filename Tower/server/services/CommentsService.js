@@ -10,14 +10,14 @@ class CommentsService {
         return `deleted ${deleteComment}`
     }
     async getEventComments(towerEventId) {
-        const eventComments = await dbContext.Comments.find({ towerEventId })
+        const eventComments = await dbContext.Comments
         return eventComments
 
 
     }
     async create(body) {
         const comment = await dbContext.Comments.create(body)
-        await comment.populate('creator')
+        await comment.populate('creator', 'name id')
         await comment.populate('event')
         return comment
     }

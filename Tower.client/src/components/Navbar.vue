@@ -11,18 +11,19 @@
     <div class="col-md-3">
       <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       </router-link>
-
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarText"
-        aria-controls="navbarText"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon" />
-      </button>
+      <div class="div">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarText"
+          aria-controls="navbarText"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon" />
+        </button>
+      </div>
 
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto">
@@ -40,11 +41,25 @@
     <div class="col-md-6 d-flex justify-content-center">
       <h1 class="title-text">Tower Events</h1>
     </div>
-    <div class="col-md-3 d-flex justify-content-end">
+    <div class="col-md-3 d-flex justify-content-end justify-content-between">
+      <!-- make sure someone is logged in to see event button -->
+      <button
+        class="btn btn-primary shadow"
+        data-bs-toggle="modal"
+        data-bs-target="#create-modal"
+      >
+        Create Event
+      </button>
       <!-- LOGIN COMPONENT HERE -->
       <Login />
     </div>
   </nav>
+  <Modal id="create-modal">
+    <template #modal-title>
+      <h4>Create an event</h4>
+    </template>
+    <template #modal-body><CreateEventForm /></template>
+  </Modal>
 </template>
 
 <script>

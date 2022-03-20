@@ -34,7 +34,7 @@
                   <div class="col-md-5 d-flex align-items-end">
                     <h4>{{ activeEvent.capacity }} spots left!</h4>
                   </div>
-                  <div class="col-md-5 d-flex justify-content-center p-2">
+                  <div class="col-md-5 d-flex justify-content-center p-2 m-2">
                     <button
                       v-if="
                         activeEvent.capacity > 0 ||
@@ -44,8 +44,14 @@
                     >
                       <b> get a ticket!</b> <i class="mdi mdi-ticket"></i>
                     </button>
-                    <button v-else class="btn btn-danger text-dark">
+                    <button v-else class="btn btn-danger text-dark mx-2">
                       <b> sold out :/</b>
+                    </button>
+                    <button
+                      v-if="activeEvent.creatorId == account.id"
+                      class="btn btn-primary mx-2"
+                    >
+                      <b>cancel event</b>
                     </button>
                   </div>
                 </div>
@@ -93,27 +99,8 @@
           </button>
           <!-- iteration of comments -->
           <div class="row justify-content-center mt-3 mb-3">
-            <div class="col-md-10">
-              <div class="row text-dark justify-content-start">
-                <div class="col-md-3 d-flex justify-content-start p-2">
-                  <img
-                    class="comment-img img-fluid"
-                    src="https://thiscatdoesnotexist.com/"
-                    alt=""
-                  />
-                </div>
-                <div class="col-md-9 card d-flex justify-content-start">
-                  <div class="row">Commenters name</div>
-                  <div class="row p-1 m-1">
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Officiis, illo non vel numquam quos eaque nam ea soluta et
-                      doloribus odit quasi est cum? Ab recusandae perferendis
-                      quisquam incidunt itaque!
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div v-for="c in comments" :key="c.id" class="col-md-10">
+              <Comment :comment="c" />
             </div>
           </div>
         </div>
@@ -130,6 +117,7 @@ import { useRoute } from "vue-router";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { eventsService } from '../services/EventsService';
+import { commentsService } from '../services/CommentsService';
 export default {
   setup() {
     const route = useRoute();
@@ -137,6 +125,7 @@ export default {
       if (route.params.id) {
         try {
           await eventsService.setActiveEvent(route.params.id)
+          await commentsService.getComments(route.params.id)
           logger.log("getting this")
         } catch (error) {
           logger.error(error)
@@ -147,6 +136,8 @@ export default {
     })
     return {
       activeEvent: computed(() => AppState.activeEvent),
+      account: computed(() => AppState.account),
+      comments: computed(() => AppState.comments)
     }
 
   }
@@ -163,11 +154,7 @@ export default {
   width: 50px;
   border-radius: 50%;
 }
-.comment-img {
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-}
+
 .button-size {
   width: 150px;
 }
