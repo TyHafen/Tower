@@ -4,33 +4,68 @@
     <div class="row justify-content-center p-3">
       <div class="card bg-primary">
         <!-- Links to filter events by type -->
-        <div class="row justify-content-around align-items-center">
-          <div class="col-md-2 d-flex justify-content-center"><h4>All</h4></div>
-          <div class="col-md-2 d-flex justify-content-center">
-            <h4>Concert</h4>
+        <div class="row justify-content-around align-items-center selectable">
+          <div class="col-md-2 d-flex justify-content-center selectable">
+            <h4 aria-label="name" aria-title="name" @click="getEvents()">
+              All
+            </h4>
           </div>
-          <div class="col-md-2 d-flex justify-content-center">
-            <h4>Convention</h4>
+          <div class="col-md-2 d-flex justify-content-center selectable">
+            <h4 @click="filterEvents('concert')">Concert</h4>
           </div>
-          <div class="col-md-2 d-flex justify-content-center">
-            <h4>Sport</h4>
+          <div class="col-md-2 d-flex justify-content-center selectable">
+            <h4 @click="filterEvents('convention')">Convention</h4>
           </div>
-          <div class="col-md-2 d-flex justify-content-center">
-            <h4>Digital</h4>
+          <div class="col-md-2 d-flex justify-content-center selectable">
+            <h4 @click="filterEvents('sport')">Sport</h4>
+          </div>
+          <div class="col-md-2 d-flex justify-content-center selectable">
+            <h4 @click="filterEvents('digital')">Digital</h4>
           </div>
         </div>
       </div>
     </div>
-    <div class="row p-3 m-2 justify-content-around">
-      <!-- only use on of these for event card component -->
-      <EventCard />
+    <div class="row p-3 m-2 justify-content-around align-items-center">
+      <div v-for="e in towerEvents" :key="e.id" class="col-md-3 d-flex p-3 m-0">
+        <!-- only use on of these for event card component -->
+        <router-link :to="{ name: 'EventDetails', params: { id: e.id } }">
+          <EventCard :towerEvent="e" />
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { AppState } from "../AppState"
+import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
+import { onMounted, watchEffect } from "@vue/runtime-core";
+import { computed } from "@vue/reactivity";
+import { eventsService } from "../services/EventsService"
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    watchEffect(async () => {
+      try {
+        await eventsService.getEvents()
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error.message, 'error')
+      }
+    })
+    return {
+      towerEvents: computed(() => AppState.towerEvents),
+      async filterEvents(type) {
+        try {
+          await eventsService.filterEvents(type)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      }
+    }
+  }
 }
 </script>
 

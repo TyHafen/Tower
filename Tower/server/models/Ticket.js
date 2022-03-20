@@ -9,7 +9,6 @@ export const TicketSchema = new Schema(
     {
         eventId: { type: Schema.Types.ObjectId, required: true, ref: 'TowerEvent' },
         accountId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' },
-        amount: { type: Number, required: true, min: 100 }
     },
     { timestamps: true, toJSON: { virtuals: true } })
 

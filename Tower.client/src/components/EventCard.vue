@@ -1,25 +1,23 @@
 <template>
   <div class="component">
     <div
-      class="event-card selectable card bg-success col-md-4 rounded shadow"
       style="width: 28rem"
+      class="event-card selectable card bg-success rounded shadow"
     >
-      <img
-        src="https://thiscatdoesnotexist.com/"
-        class="card-img-top"
-        alt="..."
-      />
+      <img :src="towerEvent.coverImg" class="card-img-top" alt="..." />
       <div class="card-body">
-        <div class="row align-items-center justify-content-center p-1 m-0">
-          <div class="col-8 d-flex">
-            <h3 class="card-title"><b> Event name</b></h3>
+        <div class="row align-items-center justify-content-center p-1 m-1">
+          <div class="col-md-7 d-flex">
+            <h4 class="card-title">
+              <b>{{ towerEvent.name }}</b>
+            </h4>
           </div>
-          <div class="col-4 d-flex">
-            <p class="ticket-font">tickets left</p>
+          <div class="col-md-5 d-flex">
+            <p class="ticket-font">{{ towerEvent.capacity }} tickets left</p>
           </div>
           <div class="row">
             <div class="col-12 d-flex p-0">
-              <h4>Location | date</h4>
+              <h5>{{ towerEvent.location }} | {{ towerEvent.type }}</h5>
             </div>
           </div>
         </div>
@@ -31,6 +29,12 @@
 
 <script>
 export default {
+  props: {
+    towerEvent: {
+      type: Object,
+      required: true
+    }
+  },
   setup() {
     return {}
   }
@@ -40,6 +44,6 @@ export default {
 
 <style lang="scss" scoped>
 .ticket-font {
-  font-size: 20px;
+  font-size: 18px;
 }
 </style>
