@@ -7,6 +7,7 @@ export class CommentsController extends BaseController {
     constructor() {
         super('api/comments')
         this.router
+
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('/comments', this.create)
             .delete('/comments/:id', this.deleteComment)

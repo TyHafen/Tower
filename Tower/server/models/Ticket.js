@@ -13,7 +13,7 @@ export const TicketSchema = new Schema(
     { timestamps: true, toJSON: { virtuals: true } })
 
 
-TicketSchema.index({ towerEventId: 1, accountId: 1 }, { unique: true })
+TicketSchema.index({ eventId: 1, accountId: 1 }, { unique: true })
 
 TicketSchema.virtual('towerEvent', {
     localField: 'eventId',
@@ -22,7 +22,7 @@ TicketSchema.virtual('towerEvent', {
     ref: 'TowerEvent'
 })
 
-TicketSchema.virtual('purchaser', {
+TicketSchema.virtual('account', {
     localField: 'accountId',
     foreignField: '_id',
     justOne: true,
