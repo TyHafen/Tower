@@ -21,7 +21,7 @@ export default {
     return {
       account: computed(() => AppState.account),
       // filter by account Id. FIGURE IT OUT
-      myTowerEvents: computed(() => AppState.towerEvents.filter(e => e.creatorId =))
+      myTowerEvents: computed(() => AppState.towerEvents)
     }
   }
 }

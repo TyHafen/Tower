@@ -4,14 +4,12 @@ import { BadRequest, Forbidden } from "../utils/Errors";
 import { towerEventsService } from "./TowerEventsService";
 
 class TicketsService {
-    async createOrUpdate(ticketBody) {
-        const ticket = await towerEventsService.getById(ticketBody.eventId)
+    async create(ticket) {
+        const towerEvent = await towerEventsService.getById(ticket.towerEventId)
         if (ticket.capacity == 0 || ticket.isCanceled == true) {
-            throw new BadRequest('Thee show is canceled or there are no tickets left')
+            throw new BadRequest('The event is canceled or there are no tickets left')
         }
-        const newTicket = await dbContext.Tickets.create(ticketBody)
-        await newTicket.populate('towerEvent')
-        await newTicket.populate('purchaser')
+        const newTicket = await dbContext.Tickets.create(ticket)
         ticket.capacity--
         await ticket.save()
         return newTicket

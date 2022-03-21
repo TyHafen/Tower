@@ -17,7 +17,7 @@ class CommentsService {
     }
     async create(body) {
         const comment = await dbContext.Comments.create(body)
-        await comment.populate('creator', 'name id')
+        await comment.populate('creator')
         await comment.populate('event')
         return comment
     }

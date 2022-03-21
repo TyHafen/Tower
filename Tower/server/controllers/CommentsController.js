@@ -5,12 +5,10 @@ import { render } from "sass";
 
 export class CommentsController extends BaseController {
     constructor() {
-        super('api')
+        super('api/comments')
         this.router
-
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('/comments', this.create)
-            .get('/events/:id/comments', this.getEventComments)
             .delete('/comments/:id', this.deleteComment)
 
     }
@@ -24,15 +22,7 @@ export class CommentsController extends BaseController {
         }
     }
 
-    async getEventComments(req, res, next) {
-        try {
-            const towerEventId = req.params.id
-            const eventComments = await commentsService.getEventComments(towerEventId)
-            return res.send(eventComments)
-        } catch (error) {
-            next(error)
-        }
-    }
+
 
 
     async deleteComment(req, res, next) {
