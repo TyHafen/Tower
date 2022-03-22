@@ -9,6 +9,16 @@
         <MyTowerEventsCard :myTowerEvent="e" />
       </div>
     </div>
+
+    <div class="row p-2 m-2">
+      <div class="col-md-2"><h3 class="text-light">What Im attending</h3></div>
+      <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+      <div v-for="a in attendingEvents" :key="a.id" class="col-md-2 mt-3">
+        <AttendingEvents :attendingEvent="a" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -21,7 +31,8 @@ export default {
     return {
       account: computed(() => AppState.account),
       // filter by account Id. FIGURE IT OUT
-      myTowerEvents: computed(() => AppState.towerEvents)
+      myTowerEvents: computed(() => AppState.towerEvents),
+      attendingEvents: computed(() => AppState.towerEvents)
     }
   }
 }

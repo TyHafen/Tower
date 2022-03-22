@@ -19,7 +19,10 @@
             <div class="col-md-6">{{ myTowerEvent.capacity }} tickets left</div>
             <div class="col-md-6">
               <button
-                v-if="account.id == myTowerEvent.creatorId"
+                v-if="
+                  account.id == myTowerEvent.creatorId &&
+                  myTowerEvent.isCanceled == false
+                "
                 class="btn btn-primary shadow btn-border"
               >
                 edit event

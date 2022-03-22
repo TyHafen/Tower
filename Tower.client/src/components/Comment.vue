@@ -14,7 +14,11 @@
             {{ comment.creator.name }}
           </div>
           <div class="col-md-4 d-flex justify-content-end">
-            <i v-if="account.id == comment.creatorId" class="mdi mdi-delete">
+            <i
+              @click="deleteComment(comment.id)"
+              v-if="account.id == comment.creatorId"
+              class="mdi mdi-delete"
+            >
             </i>
           </div>
         </div>
@@ -35,6 +39,7 @@ import { computed, onMounted, watchEffect } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
+import { commentsService } from '../services/CommentsService';
 export default {
   props: {
     comment: {
@@ -44,7 +49,18 @@ export default {
   },
   setup() {
     return {
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      async deleteComment(commentId) {
+        try {
+          if (await Pop.confirm("Are you sure you want to delete?")) {
+            await commentsService.deleteComment(commentId)
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      }
+
     }
   }
 }

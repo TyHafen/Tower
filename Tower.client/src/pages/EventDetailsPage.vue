@@ -49,6 +49,7 @@
                       <b> sold out :/</b>
                     </button>
                     <button
+                      @click="cancelEvent()"
                       v-if="activeEvent.creatorId == account.id"
                       class="btn btn-primary mx-2"
                     >
@@ -65,22 +66,11 @@
         <div class="row justify-content-center">
           <div class="col-md-8"><h5>People attending</h5></div>
         </div>
-        <!-- for iteration of people attending -->
+
         <div class="col-md-8 card bg-dark p-2 m-2 shadow">
           <div class="row">
-            <div class="col-md-1">
-              <img
-                class="profile-img"
-                src="https://thiscatdoesnotexist.com/"
-                alt=""
-              />
-            </div>
-            <div class="col-md-1">
-              <img
-                class="profile-img"
-                src="https://thiscatdoesnotexist.com/"
-                alt=""
-              />
+            <div v-for="t in tickets" :key="t.id" class="col-md-1">
+              <TicketHolderPhoto :tickets="c" />
             </div>
           </div>
         </div>
@@ -143,6 +133,16 @@ export default {
     })
     return {
       editable,
+      async cancelEvent() {
+        try {
+          if (await Pop.confirm("Are you sure you want to cancel this event?")) {
+            await eventsService.cancelEvent(route.params.id)
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      },
       async createComment() {
         try {
           editable.eventId = route.params.id
@@ -162,7 +162,9 @@ export default {
       },
       activeEvent: computed(() => AppState.activeEvent),
       account: computed(() => AppState.account),
-      comments: computed(() => AppState.comments.filter(c => c.eventId == route.params.id))
+      comments: computed(() => AppState.comments.filter(c => c.eventId == route.params.id)),
+      tickets: computed(() => AppState.tickets.filter(t => t.eventId == route.params.id))
+
     }
 
   }

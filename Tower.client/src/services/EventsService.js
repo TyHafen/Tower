@@ -4,6 +4,14 @@ import { api } from "./AxiosService";
 
 
 class EventsService {
+
+    async cancelEvent(towerEventId) {
+        let eventToCancel = AppState.towerEvents.find(e => e.id == towerEventId)
+        logger.log(eventToCancel)
+        const res = await api.put('api/events/' + towerEventId, eventToCancel)
+        logger.log('cancelled is true', res.data)
+
+    }
     async setActiveEvent(id) {
         const res = await api.get('api/events/' + id)
         logger.log(res.data)
