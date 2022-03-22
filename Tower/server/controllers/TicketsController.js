@@ -1,15 +1,15 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import { ticketsService } from "../services/TicketsService";
 import BaseController from "../utils/BaseController";
+import { Forbidden } from "../utils/Errors";
 
 
 export class TicketsController extends BaseController {
     constructor() {
-        super('api')
+        super('api/tickets')
         this.router
-            .get('/events/:id/tickets')
             .use(Auth0Provider.getAuthorizedUserInfo)
-            .post('/tickets', this.createTicket)
+            .post('', this.createTicket)
     }
     async createTicket(req, res, next) {
         try {
@@ -20,10 +20,13 @@ export class TicketsController extends BaseController {
             next(error)
         }
     }
-    async getEventTickets(req, res, next) {
+    async deleteTicket(req, res, next) {
         try {
-            const eventTickets = await ticketsService.getEventTickets(req.params.id)
-            return res.send(eventTickets)
+            if (req.body.creatorId !== req.body.userInfo.id) {
+                throw new Forbidden('not your ticket to delete')
+            }
+            const ticket = await ticketsService.deleteTicket(req.body)
+            return res.send(ticket)
         } catch (error) {
             next(error)
         }

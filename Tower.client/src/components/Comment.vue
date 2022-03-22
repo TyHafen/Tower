@@ -4,14 +4,14 @@
       <div class="col-md-3 d-flex justify-content-start p-2">
         <img
           class="comment-img img-fluid"
-          src="https://thiscatdoesnotexist.com/"
+          :src="comment.creator.picture"
           alt=""
         />
       </div>
       <div class="col-md-9 card d-flex justify-content-start">
         <div class="row">
           <div class="col-md-8">
-            {{ comment.creatorId }}
+            {{ comment.creator.name }}
           </div>
           <div class="col-md-4 d-flex justify-content-end">
             <i v-if="account.id == comment.creatorId" class="mdi mdi-delete">

@@ -36,6 +36,7 @@
                   </div>
                   <div class="col-md-5 d-flex justify-content-center p-2 m-2">
                     <button
+                      @click="createTicket()"
                       v-if="
                         activeEvent.capacity > 0 ||
                         activeEvent.isCanceled == true
@@ -88,13 +89,17 @@
         <div class="col-md-6 card bg-secondary p-1 m-2 shadow">
           <div class="input-group p-3 align-items-end">
             <input
+              v-model="editable.body"
               type="text"
-              class="form-control"
-              placeholder="What have you to say?"
-              aria-label="Recipient's username with two button addons"
+              placeholder=" what would you like to say? "
             />
           </div>
-          <button class="btn btn-dark" style="width: 150px" type="button">
+          <button
+            @click="createComment()"
+            class="btn btn-dark"
+            style="width: 150px"
+            type="button"
+          >
             SEND
           </button>
           <!-- iteration of comments -->
@@ -112,21 +117,23 @@
 
 <script>
 import { AppState } from "../AppState";
-import { computed, onMounted, watchEffect } from "@vue/runtime-core";
+import { computed, onMounted, watchEffect, ref } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { eventsService } from '../services/EventsService';
 import { commentsService } from '../services/CommentsService';
+import { ticketsService } from '../services/TicketsService';
 export default {
   setup() {
+    let editable = ref({})
     const route = useRoute();
     onMounted(async () => {
       if (route.params.id) {
         try {
           await eventsService.setActiveEvent(route.params.id)
           await commentsService.getComments(route.params.id)
-          logger.log("getting this")
+          await ticketsService.getEventTickets(route.params.id)
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
@@ -135,9 +142,27 @@ export default {
       }
     })
     return {
+      editable,
+      async createComment() {
+        try {
+          editable.eventId = route.params.id
+          await commentsService.createComment(editable.value)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+
+      },
+      async createTicket() {
+        let newTicket = {
+          accountId: AppState.account.id,
+          eventId: route.params.id
+        };
+        await ticketsService.createTicket(newTicket)
+      },
       activeEvent: computed(() => AppState.activeEvent),
       account: computed(() => AppState.account),
-      comments: computed(() => AppState.comments)
+      comments: computed(() => AppState.comments.filter(c => c.eventId == route.params.id))
     }
 
   }

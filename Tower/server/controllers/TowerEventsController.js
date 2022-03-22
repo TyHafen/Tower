@@ -3,13 +3,16 @@ import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { towerEventsService } from '../services/TowerEventsService'
 import { commentsService } from '../services/CommentsService'
+import { ticketsService } from '../services/TicketsService'
+import { Forbidden } from '../utils/Errors'
 
 
 export class TowerEventsController extends BaseController {
     constructor() {
         super('api/events')
         this.router
-            .get('/events/:id/comments', this.getEventComments)
+            .get('/:id/tickets', this.getEventTickets)
+            .get('/:id/comments', this.getEventComments)
             .get('', this.getAll)
             .get('/:id', this.getById)
             .use(Auth0Provider.getAuthorizedUserInfo)
@@ -22,8 +25,8 @@ export class TowerEventsController extends BaseController {
 
     async getEventComments(req, res, next) {
         try {
-            const towerEventId = req.params.id
-            const eventComments = await commentsService.getEventComments(towerEventId)
+
+            const eventComments = await commentsService.getEventComments({ towerEventId: req.params.id })
             return res.send(eventComments)
         } catch (error) {
             next(error)
@@ -41,8 +44,11 @@ export class TowerEventsController extends BaseController {
         }
     }
     async update(req, res, next) {
+
         try {
-            req.body.creatorId = req.userInfo.id
+            if (req.body.creatorId != req.body.userInfo.id) {
+                throw new Forbidden('not yours to edit')
+            }
             req.body.id = req.params.id
             const updateTask = await towerEventsService.update(req.body)
             return res.send(updateTask)
@@ -55,6 +61,14 @@ export class TowerEventsController extends BaseController {
         try {
             const towerEvent = await towerEventsService.getById(req.params.id)
             return res.send(towerEvent)
+        } catch (error) {
+            next(error)
+        }
+    }
+    async getEventTickets(req, res, next) {
+        try {
+            const eventTickets = await ticketsService.getEventTickets(req.params.id)
+            return res.send(eventTickets)
         } catch (error) {
             next(error)
         }

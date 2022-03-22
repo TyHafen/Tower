@@ -1,17 +1,33 @@
 
-import { Mongoose } from "mongoose";
 import { dbContext } from "../db/DbContext";
 import { BadRequest, Forbidden } from "../utils/Errors";
 import { towerEventsService } from "./TowerEventsService";
 
 class TicketsService {
+    async getAccountTickets(query) {
+        const accountTickets = await dbContext.Tickets.find(query).populate('towerEvent')
+        return accountTickets.map(MongooseDocument => {
+            const accountTicket = MongooseDocument.toJSON()
+            return {
+                ticketId: accountTicket.id,
+                eventId: accountTicket.eventId,
+                accountId: accountTicket.accountId,
+                ...accountTicket.towerEvent
+            }
+        }
+        )
+    }
+    deleteTicket(body) {
+
+    }
     async getEventTickets(id) {
-        const towerEventTickets = await dbContext.TowerEvents.findById(id).populate('account', 'name picture')
+        const towerEventTickets = await dbContext.Tickets.find({ eventId: id }).populate('account', 'name picture')
         return towerEventTickets.map(MongooseDocument => {
             const towerEventTicket = MongooseDocument.toJSON()
             return {
                 ticketId: towerEventTicket.id,
-                accountId: towerEventTicket.accountId
+                eventId: towerEventTicket.eventId,
+                ...towerEventTicket.account
             }
         }
         )

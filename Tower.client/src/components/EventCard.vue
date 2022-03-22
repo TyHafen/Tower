@@ -1,7 +1,7 @@
 <template>
   <div class="component">
     <div
-      style="width: 30rem"
+      style="width: 25rem"
       class="event-card selectable card bg-success rounded shadow"
     >
       <img
@@ -17,7 +17,13 @@
             </h4>
           </div>
           <div class="col-md-5 d-flex">
-            <p class="ticket-font">{{ towerEvent.capacity }} tickets left</p>
+            <div>
+              <p v-if="towerEvent.capacity > 0" class="ticket-font">
+                {{ towerEvent.capacity }} tickets left
+              </p>
+              <h3 v-else class="t">SOLD OUT</h3>
+              <p class="ticket-font">{{ Date(towerEvent.startDate) }}</p>
+            </div>
           </div>
           <div class="row">
             <div class="col-12 d-flex p-0">

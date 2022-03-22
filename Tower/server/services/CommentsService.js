@@ -4,20 +4,20 @@ import { BadRequest, Forbidden } from "../utils/Errors";
 class CommentsService {
     async deleteComment(commentId, userId) {
         const comment = await dbContext.Comments.findById(commentId)
-        if (comment.creatorId.toString() != userId) {
+        if (comment.creatorId != userId) {
             throw new Forbidden('not your comment to delete')
-        } const deleteComment = await dbContext.Comments.findByIdAndDelete(commentId)
-        return `deleted ${deleteComment}`
+        } await dbContext.Comments.findByIdAndDelete(commentId)
+
     }
-    async getEventComments(towerEventId) {
-        const eventComments = await dbContext.Comments
+    async getEventComments(query = {}) {
+        const eventComments = await dbContext.Comments.find(query).populate('creator')
         return eventComments
 
 
     }
     async create(body) {
         const comment = await dbContext.Comments.create(body)
-        await comment.populate('creator')
+        await comment.populate('creator', 'name picture')
         await comment.populate('event')
         return comment
     }

@@ -18,7 +18,7 @@ class TowerEventsService {
     async update(update) {
         const original = await this.getById(update.id)
         if (original.isCanceled == true) {
-            throw new Forbidden('Cannot edit canceled event')
+            throw new Forbidden('Cannot edit this event')
         }
         original.name = update.name ? update.name : original.name
         original.description = update.description ? update.description : original.description
@@ -32,13 +32,14 @@ class TowerEventsService {
         }
         return towerEvent
     }
-    async create(body) {
-
-        const towerEvent = await dbContext.TowerEvents.create(body)
-        if (towerEvent.startDate) {
-
+    async create(newTowerEvent) {
+        let present = new Date()
+        let currentDate = present.toLocaleDateString()
+        if (newTowerEvent.startDate < currentDate) {
+            throw new Forbidden("this date has already happened")
         }
-        await towerEvent.populate('creator')
+        const towerEvent = await dbContext.TowerEvents.create(newTowerEvent)
+        await towerEvent.populate('creator', 'name picture')
         return towerEvent
     }
     async getAll(query = {}) {
