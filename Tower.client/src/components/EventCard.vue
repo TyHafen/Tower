@@ -22,7 +22,9 @@
                 {{ towerEvent.capacity }} tickets left
               </p>
               <h3 v-if="towerEvent.capacity == 0" class="t">SOLD OUT</h3>
-              <p class="ticket-font">{{ Date(towerEvent.startDate) }}</p>
+              <p class="ticket-font">
+                {{ new Date(towerEvent.startDate).toDateString() }}
+              </p>
             </div>
             <div v-if="towerEvent.isCanceled == true"><h2>Canceled</h2></div>
           </div>

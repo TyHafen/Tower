@@ -4,7 +4,7 @@
       :title="ticket.name"
       class="profile-img"
       :src="ticket.picture"
-      alt=""
+      alt="oops"
     />
   </div>
 </template>

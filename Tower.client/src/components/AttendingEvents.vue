@@ -7,14 +7,16 @@
         <img
           class="card-img-top selectable"
           :src="attendingEvent.coverImg"
-          alt="Card image cap"
+          alt="oops"
         />
       </router-link>
       <div class="card-body">
         <h6 class="card-text">
           <div class="row p-1">{{ attendingEvent.name }}</div>
           <div class="row p-1">{{ attendingEvent.location }}</div>
-          <div class="row p-1">{{ attendingEvent.startDate }}</div>
+          <div class="row p-1">
+            {{ new Date(attendingEvent.startDate).toDateString() }}
+          </div>
           <div class="row p-1 justify-content-end">
             <div class="col-md-6">
               {{ attendingEvent.capacity }} tickets left
