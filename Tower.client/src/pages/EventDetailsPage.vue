@@ -47,12 +47,18 @@
                     >
                       <b> get a ticket!</b> <i class="mdi mdi-ticket"></i>
                     </button>
-                    <button v-else class="btn btn-danger text-dark mx-2">
+                    <button
+                      v-if="activeEvent.capacity == 0"
+                      class="btn btn-danger text-dark mx-2"
+                    >
                       <b> sold out :/</b>
                     </button>
                     <button
                       @click="cancelEvent()"
-                      v-if="activeEvent.creatorId == account.id"
+                      v-if="
+                        activeEvent.creatorId == account.id &&
+                        activeEvent.isCanceled == false
+                      "
                       class="btn btn-primary mx-2"
                     >
                       <b>cancel event</b>

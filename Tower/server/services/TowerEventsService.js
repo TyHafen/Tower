@@ -17,13 +17,9 @@ class TowerEventsService {
     }
     async update(update) {
         const original = await this.getById(update.id)
-        if (original.isCanceled == true) {
-            throw new Forbidden('Cannot edit this event')
-        }
         if (original.creatorId.toString() !== update.creatorId) {
             throw new BadRequest('Unauthorized to edit')
         }
-        delete original.isCanceled;
         original.name = update.name ? update.name : original.name
         original.description = update.description ? update.description : original.description
         await original.save({ runValidators: true })

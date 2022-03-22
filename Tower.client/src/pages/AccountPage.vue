@@ -15,24 +15,37 @@
       <div class="col-md-2"></div>
     </div>
     <div class="row">
-      <div v-for="a in attendingEvents" :key="a.id" class="col-md-2 mt-3">
-        <AttendingEvents :attendingEvent="a" />
+      <div v-for="t in getMyTickets" :key="t.id" class="col-md-2 mt-3">
+        <AttendingEvents :myTicket="a" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
+import { ticketsService } from '../services/TicketsService'
+import { logger } from "../utils/Logger";
+import Pop from '../utils/Pop';
+
 export default {
   name: 'Account',
   setup() {
+    onMounted(async () => {
+      try {
+        await ticketsService.getMyTickets()
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error.message, 'error')
+      }
+    })
     return {
       account: computed(() => AppState.account),
+      myTickets: computed(() => AppState.myTickets),
       // filter by account Id. FIGURE IT OUT
-      myTowerEvents: computed(() => AppState.towerEvents, AppState.account.id),
-      attendingEvents: computed(() => AppState.towerEvents)
+      myTowerEvents: computed(() => AppState.towerEvents.filter(t => t.creatorId == AppState.account.id)),
+
     }
   }
 }

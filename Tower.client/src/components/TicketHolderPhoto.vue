@@ -1,6 +1,6 @@
 <template>
   <div class="component">
-    <img class="profile-img" :src="ticket.account.picture" alt="" />
+    <!-- <img class="profile-img" :src="ticket.account.picture" alt="" /> -->
   </div>
 </template>
 

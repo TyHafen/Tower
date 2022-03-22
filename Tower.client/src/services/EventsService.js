@@ -7,9 +7,9 @@ class EventsService {
 
     async cancelEvent(towerEventId) {
         let eventToCancel = AppState.towerEvents.find(e => e.id == towerEventId)
-        logger.log(eventToCancel)
-        const res = await api.put('api/events/' + towerEventId, eventToCancel)
-        logger.log('cancelled is true', res.data)
+        eventToCancel.isCanceled = !eventToCancel.isCanceled
+        const res = await api.delete('api/events/' + towerEventId, eventToCancel)
+        logger.log('trying to cancel', res.data)
 
     }
     async setActiveEvent(id) {

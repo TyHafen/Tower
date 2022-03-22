@@ -17,13 +17,14 @@
             </h4>
           </div>
           <div class="col-md-5 d-flex">
-            <div>
+            <div v-if="towerEvent.isCanceled == false">
               <p v-if="towerEvent.capacity > 0" class="ticket-font">
                 {{ towerEvent.capacity }} tickets left
               </p>
-              <h3 v-else class="t">SOLD OUT</h3>
+              <h3 v-if="towerEvent.capacity == 0" class="t">SOLD OUT</h3>
               <p class="ticket-font">{{ Date(towerEvent.startDate) }}</p>
             </div>
+            <div v-if="towerEvent.isCanceled == true"><h2>Canceled</h2></div>
           </div>
           <div class="row">
             <div class="col-12 d-flex p-0">

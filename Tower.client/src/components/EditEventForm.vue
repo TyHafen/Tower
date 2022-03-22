@@ -40,7 +40,7 @@ export default {
       editable,
       async update() {
         try {
-          await eventsService.update(editable.value, route.params.id)
+          await eventsService.update(editable.value, props.myTowerEvent.id)
         } catch (error) {
           logger.error(error);
           Pop.toast(error.message, "error");

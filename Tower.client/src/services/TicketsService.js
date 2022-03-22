@@ -18,6 +18,10 @@ class TicketsService {
         logger.log(res.data)
 
     }
+    async getMyTickets() {
+        const res = await api.get('account/tickets')
+        AppState.myTickets = res.data
+    }
 
 
 
