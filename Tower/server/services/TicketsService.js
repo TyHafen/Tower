@@ -17,7 +17,16 @@ class TicketsService {
         }
         )
     }
-    async deleteTicket(body) {
+    async deleteTicket(ticketId, userId) {
+        const ticket = await dbContext.Tickets.findById(ticketId)
+        const towerEvent = await dbContext.TowerEvents.findById(ticket.eventId)
+        if (ticket.accountId.toString() !== userId) {
+            throw new BadRequest('not your ticket to delete')
+        }
+        const deletedTicket = await dbContext.Tickets.findByIdAndDelete(ticket.id)
+        towerEvent.capacity++
+        await towerEvent.save()
+        return `deleted ticket ${deletedTicket}`
 
     }
     async getEventTickets(id) {

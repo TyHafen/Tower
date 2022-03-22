@@ -20,6 +20,9 @@ class TowerEventsService {
         if (original.creatorId.toString() !== update.creatorId) {
             throw new BadRequest('Unauthorized to edit')
         }
+        if (original.isCanceled) {
+            throw new BadRequest("cant do that")
+        }
         original.name = update.name ? update.name : original.name
         original.description = update.description ? update.description : original.description
         await original.save({ runValidators: true })
@@ -37,7 +40,7 @@ class TowerEventsService {
         let currentDate = present.toLocaleDateString()
         newTowerEvent.startDate = new Date(newTowerEvent.startDate).toLocaleDateString()
         if (newTowerEvent.startDate < currentDate) {
-            throw new Forbidden("this date has already happened")
+            throw new BadRequest("this date has already happened")
         }
         const towerEvent = await dbContext.TowerEvents.create(newTowerEvent)
         await towerEvent.populate('creator', 'name picture')
