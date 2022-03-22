@@ -21,7 +21,14 @@
             <div class="col-md-6">
               {{ attendingEvent.capacity }} tickets left
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-6">
+              <button
+                @click="deleteTicket(attendingEvent.id)"
+                class="btn btn-info"
+              >
+                Give up ticket
+              </button>
+            </div>
           </div>
         </h6>
       </div>
