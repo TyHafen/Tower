@@ -51,7 +51,6 @@ export default {
           const newEvent = await eventsService.createEvent(editable.value)
           router.push({
             name: 'EventDetails',
-            // figure out the id passing through. doesnt take you to make
             params: { id: newEvent.id }
           })
         } catch (error) {

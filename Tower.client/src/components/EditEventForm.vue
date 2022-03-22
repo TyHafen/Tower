@@ -24,11 +24,17 @@ import Pop from "../utils/Pop"
 import { router } from "../router"
 import { useRoute } from "vue-router";
 export default {
-  setup() {
+  props: {
+    myTowerEvent: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
     let editable = ref({});
     const route = useRoute();
     watchEffect(() => {
-      editable.value = AppState.towerEvents
+      editable.value = props.myTowerEvent
     })
     return {
       editable,

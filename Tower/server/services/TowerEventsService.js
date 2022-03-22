@@ -20,6 +20,10 @@ class TowerEventsService {
         if (original.isCanceled == true) {
             throw new Forbidden('Cannot edit this event')
         }
+        if (original.creatorId.toString() !== update.creatorId) {
+            throw new BadRequest('Unauthorized to edit')
+        }
+        delete original.isCanceled;
         original.name = update.name ? update.name : original.name
         original.description = update.description ? update.description : original.description
         await original.save({ runValidators: true })
@@ -35,6 +39,7 @@ class TowerEventsService {
     async create(newTowerEvent) {
         let present = new Date()
         let currentDate = present.toLocaleDateString()
+        newTowerEvent.startDate = new Date(newTowerEvent.startDate).toLocaleDateString()
         if (newTowerEvent.startDate < currentDate) {
             throw new Forbidden("this date has already happened")
         }

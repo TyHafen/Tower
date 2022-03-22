@@ -12,12 +12,12 @@ class TicketsService {
         eventCap = AppState.towerEvents.find(t => t.id == ticketData.eventId)
         eventCap.capacity--
     }
-    // getEventTickets(towerEventId) {
-    //     const res = await api.get('api/events/' + towerEventId + '/tickets')
-    //     AppState.tickets = res.data
-    //     logger.log(res.data)
+    async getEventTickets(towerEventId) {
+        const res = await api.get('api/events/' + towerEventId + '/tickets')
+        AppState.tickets = res.data
+        logger.log(res.data)
 
-    // }
+    }
 
 
 

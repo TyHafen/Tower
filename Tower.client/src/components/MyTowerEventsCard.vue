@@ -39,7 +39,9 @@
     <template #modal-title>
       <h4>edit the event</h4>
     </template>
-    <template #modal-body><EditEventForm /></template>
+    <template #modal-body
+      ><EditEventForm :myTowerEvent="myTowerEvent"
+    /></template>
   </Modal>
 </template>
 

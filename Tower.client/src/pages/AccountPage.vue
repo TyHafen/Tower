@@ -31,7 +31,7 @@ export default {
     return {
       account: computed(() => AppState.account),
       // filter by account Id. FIGURE IT OUT
-      myTowerEvents: computed(() => AppState.towerEvents),
+      myTowerEvents: computed(() => AppState.towerEvents, AppState.account.id),
       attendingEvents: computed(() => AppState.towerEvents)
     }
   }

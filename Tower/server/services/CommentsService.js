@@ -5,7 +5,7 @@ import { BadRequest, Forbidden } from "../utils/Errors";
 class CommentsService {
     async deleteComment(commentId, userId) {
         const comment = await dbContext.Comments.findById(commentId)
-        if (comment.creatorId != userId) {
+        if (comment.creatorId.toString() != userId) {
             throw new Forbidden('not your comment to delete')
         } const deletedComment = await dbContext.Comments.findByIdAndDelete(commentId)
         return `deleted ${deletedComment}`
@@ -23,7 +23,7 @@ class CommentsService {
         await comment.populate('event')
         return comment
     }
-    async
+
 }
 
 

@@ -18,7 +18,9 @@
                     <div
                       class="row justify-content-end text-right container-fluid"
                     >
-                      <h2>{{ activeEvent.startDate }}</h2>
+                      <h2>
+                        {{ new Date(activeEvent.startDate).toLocaleString() }}
+                      </h2>
                       <h4></h4>
                     </div>
                   </div>
@@ -39,8 +41,7 @@
                       @click="createTicket()"
                       v-if="
                         activeEvent.capacity > 0 ||
-                        activeEvent.isCanceled == true ||
-                        !hasTicket
+                        activeEvent.isCanceled == true
                       "
                       class="btn btn-danger text-dark"
                     >
@@ -119,7 +120,7 @@ export default {
   setup() {
     let editable = ref({})
     const route = useRoute();
-    onMounted(async () => {
+    watchEffect(async () => {
       if (route.params.id) {
         try {
           await eventsService.setActiveEvent(route.params.id)
@@ -134,6 +135,7 @@ export default {
     })
     return {
       editable,
+
       async cancelEvent() {
         try {
           if (await Pop.confirm("Are you sure you want to cancel this event?")) {
@@ -146,8 +148,12 @@ export default {
       },
       async createComment() {
         try {
-          editable.eventId = route.params.id
-          await commentsService.createComment(editable.value)
+          let comment = {
+            creatorId: AppState.account.id,
+            eventId: route.params.id,
+            body: editable.value.body
+          }
+          await commentsService.createComment(comment)
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
@@ -166,7 +172,6 @@ export default {
       comments: computed(() => AppState.comments.filter(c => c.eventId == route.params.id)),
       tickets: computed(() => AppState.tickets.filter(t => t.eventId == route.params.id)),
       hasTicket: computed(() => AppState.tickets.find(t => t.id == AppState.account.id))
-
     }
 
   }

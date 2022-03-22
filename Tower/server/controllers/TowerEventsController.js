@@ -44,12 +44,9 @@ export class TowerEventsController extends BaseController {
         }
     }
     async update(req, res, next) {
-
         try {
-            if (req.body.creatorId != req.body.userInfo.id) {
-                throw new Forbidden('not yours to edit')
-            }
             req.body.id = req.params.id
+            req.body.creatorId = req.userInfo.id
             const updateTask = await towerEventsService.update(req.body)
             return res.send(updateTask)
         } catch (error) {
