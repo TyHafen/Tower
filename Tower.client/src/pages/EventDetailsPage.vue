@@ -39,12 +39,14 @@
                     </h4>
                     <h4 v-else>CANCELED</h4>
                   </div>
+
                   <div class="col-md-5 d-flex justify-content-center p-2 m-2">
                     <button
                       @click="createTicket()"
                       v-if="
                         !hasTicket &&
-                        (!activeEvent.isCanceled || activeEvent.capacity > 0)
+                        !activeEvent.isCanceled &&
+                        activeEvent.capacity > 0
                       "
                       class="btn btn-danger text-dark"
                     >

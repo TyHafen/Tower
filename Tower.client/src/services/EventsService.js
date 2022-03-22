@@ -6,10 +6,12 @@ import { api } from "./AxiosService";
 class EventsService {
 
     async cancelEvent(towerEventId) {
-        let eventToCancel = AppState.towerEvents.find(e => e.id == towerEventId)
-        eventToCancel.isCanceled = !eventToCancel.isCanceled
-        const res = await api.delete('api/events/' + towerEventId, eventToCancel)
+        // let eventToCancel = AppState.towerEvents.find(e => e.id == towerEventId)
+        // eventToCancel.isCanceled = !eventToCancel.isCanceled
+        const res = await api.delete('api/events/' + towerEventId)
         logger.log('trying to cancel', res.data)
+        // REVIEW save/store change to appstate after cancelling....
+        // AppState.activeEvent = res.data
 
     }
     async setActiveEvent(id) {
