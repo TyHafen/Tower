@@ -25,9 +25,10 @@ class TicketsService {
         return towerEventTickets.map(MongooseDocument => {
             const towerEventTicket = MongooseDocument.toJSON()
             return {
+                ...towerEventTicket.account,
                 ticketId: towerEventTicket.id,
                 eventId: towerEventTicket.eventId,
-                ...towerEventTicket.account
+                accountId: towerEventTicket.accountId,
             }
         }
         )

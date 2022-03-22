@@ -1,6 +1,11 @@
 <template>
   <div class="component">
-    <!-- <img class="profile-img" :src="ticket.account.picture" alt="" /> -->
+    <img
+      :title="ticket.name"
+      class="profile-img"
+      :src="ticket.picture"
+      alt=""
+    />
   </div>
 </template>
 
@@ -21,4 +26,9 @@ export default {
 
 
 <style lang="scss" scoped>
+.profile-img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
 </style>

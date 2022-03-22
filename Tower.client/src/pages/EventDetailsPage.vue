@@ -42,17 +42,23 @@
                   <div class="col-md-5 d-flex justify-content-center p-2 m-2">
                     <button
                       @click="createTicket()"
-                      v-if="activeEvent.capacity > 0 && !activeEvent.isCanceled"
+                      v-if="
+                        !hasTicket &&
+                        (!activeEvent.isCanceled || activeEvent.capacity > 0)
+                      "
                       class="btn btn-danger text-dark"
                     >
                       <b> get a ticket!</b> <i class="mdi mdi-ticket"></i>
                     </button>
+
                     <button
                       v-else-if="activeEvent.capacity == 0"
                       class="btn btn-danger text-dark mx-2"
                     >
                       <b> sold out :/</b>
                     </button>
+                    <h3 v-else-if="hasTicket">Congrats you're going!</h3>
+
                     <button
                       @click="cancelEvent()"
                       v-if="
@@ -78,7 +84,7 @@
         <div class="col-md-8 card bg-dark p-2 m-2 shadow">
           <div class="row">
             <div v-for="t in tickets" :key="t.id" class="col-md-1">
-              <TicketHolderPhoto :tickets="c" />
+              <TicketHolderPhoto :ticket="t" />
             </div>
           </div>
         </div>
@@ -129,9 +135,9 @@ export default {
     watchEffect(async () => {
       if (route.params.id) {
         try {
-          await eventsService.setActiveEvent(route.params.id)
-          await commentsService.getComments(route.params.id)
-          await ticketsService.getEventTickets(route.params.id)
+          eventsService.setActiveEvent(route.params.id)
+          commentsService.getComments(route.params.id)
+          ticketsService.getEventTickets(route.params.id)
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
@@ -177,7 +183,8 @@ export default {
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments.filter(c => c.eventId == route.params.id)),
       tickets: computed(() => AppState.tickets.filter(t => t.eventId == route.params.id)),
-      hasTicket: computed(() => AppState.tickets.find(t => t.id == AppState.account.id))
+      hasTicket: computed(() => AppState.tickets.find(t => t.accountId == AppState.account.id && t.eventId == route.params.id))
+
     }
 
   }
@@ -188,11 +195,6 @@ export default {
 <style lang="scss" scoped>
 .event-card {
   opacity: 80%;
-}
-.profile-img {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
 }
 
 .button-size {

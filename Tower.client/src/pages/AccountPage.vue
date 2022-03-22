@@ -15,8 +15,8 @@
       <div class="col-md-2"></div>
     </div>
     <div class="row">
-      <div v-for="t in getMyTickets" :key="t.id" class="col-md-2 mt-3">
-        <AttendingEvents :myTicket="a" />
+      <div v-for="e in attendingEvents" :key="e.id" class="col-md-2 mt-3">
+        <AttendingEvents :attendingEvent="e" />
       </div>
     </div>
   </div>
@@ -42,8 +42,7 @@ export default {
     })
     return {
       account: computed(() => AppState.account),
-      myTickets: computed(() => AppState.myTickets),
-      // filter by account Id. FIGURE IT OUT
+      attendingEvents: computed(() => AppState.myTickets),
       myTowerEvents: computed(() => AppState.towerEvents.filter(t => t.creatorId == AppState.account.id)),
 
     }
