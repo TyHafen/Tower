@@ -22,10 +22,11 @@ export class TicketsController extends BaseController {
     }
     async deleteTicket(req, res, next) {
         try {
+            req.body.ticketId = req.params.id
             if (req.body.creatorId !== req.body.userInfo.id) {
                 throw new Forbidden('not your ticket to delete')
             }
-            const ticket = await ticketsService.deleteTicket(req.body)
+            const ticket = await ticketsService.deleteTicket()
             return res.send(ticket)
         } catch (error) {
             next(error)

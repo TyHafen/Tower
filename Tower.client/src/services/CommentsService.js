@@ -13,10 +13,11 @@ class CommentsService {
     async createComment(newComment) {
         const res = await api.post('api/comments/', newComment)
         logger.log('new comment', res.data)
-        AppState.comments = res.data
+
+        AppState.comments.unshift(res.data)
     }
     async deleteComment(commentId) {
-        const res = await api.delete('api/comments/', commentId)
+        const res = await api.delete('api/comments/' + commentId)
         logger.log(res.data)
         AppState.comments = AppState.comments.filter(c => c.id != commentId)
     }

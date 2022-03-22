@@ -17,7 +17,7 @@ class TicketsService {
         }
         )
     }
-    deleteTicket(body) {
+    async deleteTicket(body) {
 
     }
     async getEventTickets(id) {

@@ -37,6 +37,7 @@ class EventsService {
     }
     async update(updateBody, eventId) {
         const res = await api.put('api/events/' + eventId, updateBody)
+        logger.log(res.data)
 
 
     }

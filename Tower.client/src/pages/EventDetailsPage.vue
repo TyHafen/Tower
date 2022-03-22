@@ -34,21 +34,21 @@
 
                 <div class="row justify-content-between">
                   <div class="col-md-5 d-flex align-items-end">
-                    <h4>{{ activeEvent.capacity }} spots left!</h4>
+                    <h4 v-if="!activeEvent.isCanceled">
+                      {{ activeEvent.capacity }} spots left!
+                    </h4>
+                    <h4 v-else>CANCELED</h4>
                   </div>
                   <div class="col-md-5 d-flex justify-content-center p-2 m-2">
                     <button
                       @click="createTicket()"
-                      v-if="
-                        activeEvent.capacity > 0 ||
-                        activeEvent.isCanceled == true
-                      "
+                      v-if="activeEvent.capacity > 0 && !activeEvent.isCanceled"
                       class="btn btn-danger text-dark"
                     >
                       <b> get a ticket!</b> <i class="mdi mdi-ticket"></i>
                     </button>
                     <button
-                      v-if="activeEvent.capacity == 0"
+                      v-else-if="activeEvent.capacity == 0"
                       class="btn btn-danger text-dark mx-2"
                     >
                       <b> sold out :/</b>

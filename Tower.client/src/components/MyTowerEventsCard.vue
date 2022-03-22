@@ -13,8 +13,9 @@
       <div class="card-body">
         <h6 class="card-text">
           <div class="row p-1">{{ myTowerEvent.name }}</div>
-          <div class="row p-1">{{ myTowerEvent.location }}</div>
+          <div class="row p-1">{{ myTowerEvent.description }}</div>
           <div class="row p-1">{{ myTowerEvent.startDate }}</div>
+          <div class="row p-1">{{ myTowerEvent.location }}</div>
           <div class="row p-1 justify-content-end">
             <div class="col-md-6">{{ myTowerEvent.capacity }} tickets left</div>
             <div class="col-md-6">

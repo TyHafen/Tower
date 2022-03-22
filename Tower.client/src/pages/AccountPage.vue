@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import { ticketsService } from '../services/TicketsService'
 import { logger } from "../utils/Logger";
@@ -32,7 +32,7 @@ import Pop from '../utils/Pop';
 export default {
   name: 'Account',
   setup() {
-    onMounted(async () => {
+    watchEffect(async () => {
       try {
         await ticketsService.getMyTickets()
       } catch (error) {
