@@ -24,6 +24,8 @@
                   myTowerEvent.isCanceled == false
                 "
                 class="btn btn-primary shadow btn-border"
+                data-bs-toggle="modal"
+                data-bs-target="#edit-modal"
               >
                 edit event
               </button>
@@ -33,6 +35,12 @@
       </div>
     </div>
   </div>
+  <Modal id="edit-modal">
+    <template #modal-title>
+      <h4>edit the event</h4>
+    </template>
+    <template #modal-body><EditEventForm /></template>
+  </Modal>
 </template>
 
 

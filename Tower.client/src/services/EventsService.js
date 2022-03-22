@@ -35,6 +35,11 @@ class EventsService {
         AppState.towerEvents.unshift(res.data)
 
     }
+    async update(updateBody, eventId) {
+        const res = await api.put('api/events/' + eventId, updateBody)
+
+
+    }
 }
 
 
