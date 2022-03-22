@@ -9,7 +9,8 @@ class TicketsService {
         const newTicket = { ...res.data, name: res.data.account.name, picture: res.data.account.picture }
         AppState.tickets.push(newTicket)
         logger.log(newTicket)
-
+        eventCap = AppState.towerEvents.find(t => t.id == ticketData.eventId)
+        eventCap.capacity--
     }
     // getEventTickets(towerEventId) {
     //     const res = await api.get('api/events/' + towerEventId + '/tickets')

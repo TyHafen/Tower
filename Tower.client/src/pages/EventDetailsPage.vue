@@ -39,7 +39,8 @@
                       @click="createTicket()"
                       v-if="
                         activeEvent.capacity > 0 ||
-                        activeEvent.isCanceled == true
+                        activeEvent.isCanceled == true ||
+                        !hasTicket
                       "
                       class="btn btn-danger text-dark"
                     >
@@ -163,7 +164,8 @@ export default {
       activeEvent: computed(() => AppState.activeEvent),
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments.filter(c => c.eventId == route.params.id)),
-      tickets: computed(() => AppState.tickets.filter(t => t.eventId == route.params.id))
+      tickets: computed(() => AppState.tickets.filter(t => t.eventId == route.params.id)),
+      hasTicket: computed(() => AppState.tickets.find(t => t.id == AppState.account.id))
 
     }
 
