@@ -23,7 +23,7 @@
             </div>
             <div class="col-md-6">
               <button
-                @click="deleteTicket(attendingEvent.id)"
+                @click="deleteTicket(attendingEvent.ticketId)"
                 class="btn btn-info"
               >
                 Give up ticket
@@ -38,6 +38,10 @@
 
 
 <script>
+import { ticketsService } from '../services/TicketsService';
+import { logger } from "../utils/Logger";
+import Pop from '../utils/Pop';
+
 export default {
   props: {
     attendingEvent: {
@@ -46,7 +50,19 @@ export default {
     }
   },
   setup() {
-    return {}
+    return {
+
+      async deleteTicket(ticketId) {
+        try {
+          if (await Pop.confirm('Are you sure you dont want to go?')) {
+            await ticketsService.deleteTicket(ticketId)
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      }
+    }
   }
 }
 </script>

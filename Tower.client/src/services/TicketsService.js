@@ -20,6 +20,11 @@ class TicketsService {
         const res = await api.get('account/tickets')
         AppState.myTickets = res.data
     }
+    async deleteTicket(ticketId) {
+        const res = await api.delete('api/tickets/' + ticketId)
+        AppState.myTickets = AppState.myTickets.filter(t => t.id != ticketId)
+        logger.log(res.data)
+    }
 
 
 
