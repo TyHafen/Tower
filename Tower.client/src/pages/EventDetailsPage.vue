@@ -10,30 +10,27 @@
               </div>
               <div class="col-md-8 p-2">
                 <div class="row justify-content-between">
-                  <div class="col-md-6 p-2 m-1">
+                  <div class="col-md-6 p-2 m-3">
                     <h3>{{ activeEvent.name }}</h3>
                     <h4>{{ activeEvent.type }}</h4>
                   </div>
                   <div class="col-md-4 d-flex p-2 m-1">
-                    <div
-                      class="row justify-content-end text-right container-fluid"
-                    >
+                    <div class="row container-fluid">
                       <h2>
-                        {{ new Date(activeEvent.startDate).toLocaleString() }}
+                        {{ new Date(activeEvent.startDate).toDateString() }}
                       </h2>
-                      <h4></h4>
                     </div>
                   </div>
                 </div>
 
                 <div class="row p-2">
-                  <p class="text-dark description">
+                  <p class="text-dark description m-2">
                     {{ activeEvent.description }}
                   </p>
                 </div>
 
                 <div class="row justify-content-between">
-                  <div class="col-md-5 d-flex align-items-end">
+                  <div class="col-md-5 d-flex align-items-end m-2">
                     <h4 v-if="!activeEvent.isCanceled">
                       {{ activeEvent.capacity }} spots left!
                     </h4>
@@ -91,7 +88,7 @@
           </div>
         </div>
       </div>
-      <div class="row justify-content-center mt-3">
+      <div class="row justify-content-center mt-3 m-2">
         <div class="col-md-6 card bg-secondary p-1 m-2 shadow">
           <div class="input-group p-3 align-items-end">
             <input
@@ -109,7 +106,7 @@
             SEND
           </button>
           <!-- iteration of comments -->
-          <div class="row justify-content-center mt-3 mb-3">
+          <div class="row justify-content-center m-2">
             <div v-for="c in comments" :key="c.id" class="col-md-10">
               <Comment :comment="c" />
             </div>
